@@ -11,6 +11,7 @@ const initialState = {
 // will call the thunk with the `dispatch` function as the first argument. Async
 // code can then be executed and other actions can be dispatched. Thunks are
 // typically used to make async requests.
+// 非同期処理のデモ
 export const incrementAsync = createAsyncThunk(
   'counter/fetchCount',
   async (amount) => {
@@ -21,15 +22,19 @@ export const incrementAsync = createAsyncThunk(
 );
 
 export const counterSlice = createSlice({
+  // nameはsliceを識別するためにつけている
   name: 'counter',
+  // 初期状態を定義 stateの雛形？
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
+    // ここでは3のアクションが定義されている
     increment: (state) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
+      // 現在のstateを取得し、value属性に+1し、stateを更新する処理
       state.value += 1;
     },
     decrement: (state) => {
@@ -37,6 +42,8 @@ export const counterSlice = createSlice({
     },
     // Use the PayloadAction type to declare the contents of `action.payload`
     incrementByAmount: (state, action) => {
+      // actionはpayloadを属性に持つ。引数のようなもの。
+      // ユーザーが入力した2という数字をactionのpayloadで受け取ってvalueに足す
       state.value += action.payload;
     },
   },
@@ -55,10 +62,13 @@ export const counterSlice = createSlice({
 });
 
 export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+// Counter.jsでdispatchして呼び出すためにexport
 
 // The function below is called a selector and allows us to select a value from
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state: RootState) => state.counter.value)`
+
+// 現在のstateの中のcounterのvalueを取り出せるようにする。
 export const selectCount = (state) => state.counter.value;
 
 // We can also write thunks by hand, which may contain both sync and async logic.
@@ -70,4 +80,6 @@ export const incrementIfOdd = (amount) => (dispatch, getState) => {
   }
 };
 
+// counterSliceのreducerの情報をexport
+// app/store.jsでimportできるように
 export default counterSlice.reducer;

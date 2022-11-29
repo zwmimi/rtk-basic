@@ -11,8 +11,9 @@ import {
 import styles from './Counter.module.css';
 
 export function Counter() {
+  // storeのstateを取得
   const count = useSelector(selectCount);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();　// dispatchの実態作成
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
@@ -31,6 +32,7 @@ export function Counter() {
         <button
           className={styles.button}
           aria-label="Increment value"
+          // dispatch(アクションの関数)とすることでstoreのreducerに渡せる
           onClick={() => dispatch(increment())}
         >
           +
